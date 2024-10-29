@@ -52,12 +52,18 @@ void enqueuePriorityQueue(PriorityQueue* pq, Traffic t) {
 int totalTime(PriorityQueue pq) {
     int retval = 0;
 	int x, index = 0;
+    FILE* fp = fopen("Dequeue.dat", "wb");
     for ( x = 0; x <= pq.lastNdx; x++) {
         if (pq.data[index].lane != MainPedestrian && pq.data[index].lane != DivPedestrian) {
             retval += pq.data[index].time;
+            if(fp!=NULL){
+            fwrite(&pq.data[index], sizeof(Traffic),1,fp);
+        }
         } 
         index = (index + 1) % MAX;
+        
     }
+    fclose(fp);
     return retval;
 }
 
